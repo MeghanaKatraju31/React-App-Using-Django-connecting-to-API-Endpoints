@@ -95,3 +95,41 @@
   width: 30px;
   height: auto;
 }
+/* Projects Section Styling */
+.projects {
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.projects h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  color: #000102; /* Dark blue-grey color */
+  margin-bottom: 20px;
+}
+
+.projects-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.project-item {
+  background: linear-gradient(145deg, #ffffff, #f8f9fa); /* Gradient background */
+  color: #000407; /* Dark blue-grey text */
+  border-radius: 15px;
+  padding: 20px;
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Larger shadow for more depth */
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.project-item:hover {
+  background: linear-gradient(145deg, #f0f4f8, #ffffff); /* Light gradient on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+  transform: translateY(-8px); /* Lift the item more on hover */
+}

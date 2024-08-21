@@ -1,8 +1,34 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import SocialLinks from './SocialLinks';
 
 function App() {
+  const [skills, setSkills] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Fetch both skills and projects simultaneously
+    Promise.all([
+      axios.get('http://localhost:8000/api/skills/'),
+      axios.get('http://localhost:8000/api/projects/')
+    ])
+    .then(([skillsResponse, projectsResponse]) => {
+      console.log('Fetched skills:', skillsResponse.data);
+      console.log('Fetched projects:', projectsResponse.data);
+      setSkills(skillsResponse.data);
+      setProjects(projectsResponse.data); // Set projects data in state
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      setError('Failed to load data');
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -14,7 +40,7 @@ function App() {
         <div className="intro">
           <h3>About Me</h3>
           <p>
-            I’m a Computer Science graduate student at the University of Texas at Arlington with a strong background in technology and hands-on experience across various internships. I've worked with AWS on cloud architecture, Path Creators on robotics, Indian Servers Company on cybersecurity, and IBM on data science and machine learning. I specialize in Java, Python, SQL, and PostgreSQL, and am skilled in Spring Boot, Maven, Selenium, and AWS. I’ve also led projects in biometric security and road lane detection. I’m passionate about technology and eager to contribute to innovative projects. Connect with me on LinkedIn or reach out for collaboration opportunities!
+          I’m Meghana Katraju, a Computer Science graduate student at the University of Texas at Arlington. My background includes hands-on internships with AWS in cloud, Path Creators in robotics, cybersecurity in Indian Servers Company, and Python for data science in IBM. I’ve led projects in biometric security, road lane detection, and network management at Cisco. Proficient in Java, JavaScript, REACT, SQL, PostgreSQL, Spring tools, and more, I'm eager for full-time opportunities and open to connecting on LinkedIn.
           </p>
         </div>
         <div className="education">
@@ -31,25 +57,23 @@ function App() {
           </p>
         </div>
         <div className="skills">
-          <h3>Skills</h3>
+          <h3>My Skills</h3>
+          {loading && <p>Loading skills...</p>}
+          {error && <p>{error}</p>}
           <ul className="skills-list">
-            <li className="skill-item">Java</li>
-            <li className="skill-item">Python</li>
-            <li className="skill-item">SQL</li>
-            <li className="skill-item">PostgreSQL</li>
-            <li className="skill-item">Spring Boot</li>
-            <li className="skill-item">Maven</li>
-            <li className="skill-item">Selenium</li>
-            <li className="skill-item">AWS</li>
-            <li className="skill-item">Git</li>
-            <li className="skill-item">Gradle</li>
-            <li className="skill-item">Junit</li>
-            <li className="skill-item">React</li>
-            <li className="skill-item">MongoDB</li>
-            <li className="skill-item">Spring MVC</li>
-            <li className="skill-item">C</li>
-            <li className="skill-item">C++</li>
-            <li className="skill-item">Hibernate</li>
+            {skills.map((skill, index) => (
+              <li key={index} className="skill-item">{skill}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="projects">
+          <h3>My Projects</h3>
+          {loading && <p>Loading projects...</p>}
+          {error && <p>{error}</p>}
+          <ul className="projects-list">
+            {projects.map((project, index) => (
+              <li key={index} className="project-item">{project}</li>
+            ))}
           </ul>
         </div>
         <SocialLinks />
@@ -59,9 +83,4 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
 
